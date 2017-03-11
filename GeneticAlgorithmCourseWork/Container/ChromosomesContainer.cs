@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using GeneticAlgorithmCourseWork.ChromosomeModel;
 
-namespace GeneticAlgorithmCourseWork.Adapter
+namespace GeneticAlgorithmCourseWork.Container
 {
-    class ChromosomesAdapter
+    class ChromosomesContainer
     {
         private List<ChromosomeModel.Chromosome> _container;
    
-        public ChromosomesAdapter()
+        public ChromosomesContainer()
         {
             _container = new List<Chromosome>();
         }
