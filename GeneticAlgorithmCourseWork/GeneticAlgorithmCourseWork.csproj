@@ -64,6 +64,12 @@
       <DependentUpon>SetSizeForRoomDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="SpaceParam\SingleSpaceParams.cs" />
+    <Compile Include="WaitingProcessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitingProcessForm.Designer.cs">
+      <DependentUpon>WaitingProcessForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

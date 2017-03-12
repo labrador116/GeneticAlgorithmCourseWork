@@ -10,17 +10,16 @@ namespace GeneticAlgorithmCourseWork.Service
 {
     class ExecuteService
     {
-        private int _CountOfDevices;
+        private List<int> _radiusContainer; 
 
-        public void CreatesDevices(int countOfDevices)
+        public ExecuteService (List<int> container)
         {
-            ChromosomesContainer container = new ChromosomesContainer();
+            _radiusContainer = container;
+        }
 
-            for (int i = 0; i < countOfDevices; i++)
-            {
-                //Chromosome chromosome = new Chromosome();
-              
-            }
+        public void Start()
+        {
+
         }
     }
 }

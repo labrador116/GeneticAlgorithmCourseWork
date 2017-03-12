@@ -55,6 +55,7 @@
             // 
             // SetCountOfDeviceButton
             // 
+            this.SetCountOfDeviceButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.SetCountOfDeviceButton.Location = new System.Drawing.Point(209, 40);
             this.SetCountOfDeviceButton.Name = "SetCountOfDeviceButton";
             this.SetCountOfDeviceButton.Size = new System.Drawing.Size(75, 23);

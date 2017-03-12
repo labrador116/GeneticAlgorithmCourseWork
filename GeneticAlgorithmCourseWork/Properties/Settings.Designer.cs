@@ -22,5 +22,41 @@ namespace GeneticAlgorithmCourseWork.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Задать параметры")]
+        public string setDivicesText {
+            get {
+                return ((string)(this["setDivicesText"]));
+            }
+            set {
+                this["setDivicesText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int constX {
+            get {
+                return ((int)(this["constX"]));
+            }
+            set {
+                this["constX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("73")]
+        public int constY {
+            get {
+                return ((int)(this["constY"]));
+            }
+            set {
+                this["constY"] = value;
+            }
+        }
     }
 }
