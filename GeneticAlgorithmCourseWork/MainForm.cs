@@ -102,5 +102,6 @@ namespace GeneticAlgorithmCourseWork
 
             // this.Hide();
         }
+        
     }
 }
