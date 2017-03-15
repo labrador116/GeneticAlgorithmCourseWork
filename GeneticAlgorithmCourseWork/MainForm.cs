@@ -17,6 +17,8 @@ namespace GeneticAlgorithmCourseWork
     {
         List<TextBox> _radiusTextBox;
         List<int> _radiusContainer;
+
+        List<int> TEST_PARAM;
         public MainForm()
         {
             InitializeComponent();
@@ -32,7 +34,18 @@ namespace GeneticAlgorithmCourseWork
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            /*TEST PARAMS*/
+            TEST_PARAM = new List<int>();
+            TEST_PARAM.Add(15);
+            TEST_PARAM.Add(25);
+            TEST_PARAM.Add(10);
+            TEST_PARAM.Add(6);
+            TEST_PARAM.Add(31);
+            TEST_PARAM.Add(16);
+            TEST_PARAM.Add(6);
+            TEST_PARAM.Add(13);
+
+            CountOfDeviceUpDown.Value = 8;
         }
 
         private void SetCountOfDeviceButton_Click(object sender, EventArgs e)
@@ -48,6 +61,8 @@ namespace GeneticAlgorithmCourseWork
                         Properties.Settings.Default.constY + (30*i));
 
                     textbox.Name = "textbox"+i;
+                    /*TEST PARAMS*/
+                    textbox.Text = TEST_PARAM.ElementAt(i).ToString();
                     textbox.KeyPress += Textbox_KeyPress;
                 
                     BoxForElementsOfControl.Controls.Add(textbox);
@@ -94,6 +109,7 @@ namespace GeneticAlgorithmCourseWork
             }
 
             ExecuteService service = new ExecuteService(_radiusContainer);
+            service.WrongParams += Service_WrongParams;
             service.Start();
             
             WaitingProcessForm processForm = new WaitingProcessForm();
@@ -102,6 +118,10 @@ namespace GeneticAlgorithmCourseWork
 
             // this.Hide();
         }
-        
+
+        private void Service_WrongParams(object sender, EventArgs e)
+        {
+            MessageBox.Show("Не корректные входные параметры! Площадь пространства должна быть не менее, чем в два раза больше площади покрытия всеми устройствами.");
+        }
     }
 }

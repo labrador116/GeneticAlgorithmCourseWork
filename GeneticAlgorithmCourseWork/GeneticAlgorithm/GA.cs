@@ -1,6 +1,7 @@
 ﻿using GeneticAlgorithmCourseWork.ChromosomeModel;
 using GeneticAlgorithmCourseWork.Container;
 using GeneticAlgorithmCourseWork.Service;
+using GeneticAlgorithmCourseWork.SpaceParam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,26 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 {
     class GA
     {
+        public static bool CheckToArea(Chromosome chromosome)
+        {
+            double sumCirclesArea = 0;
+
+            List<Gene> genes = chromosome.Container;
+
+            foreach (Gene item in genes)
+            {
+                sumCirclesArea += Math.PI * (item.Radius * item.Radius);
+            }
+
+            if ((SingleSpaceParams.getInstance().Width * SingleSpaceParams.getInstance().Height) / sumCirclesArea < 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public static void CheckIntersection(Chromosome chromosome)
         {
@@ -18,18 +39,20 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 
             for (int i = 0; i <lenght ; i++)
             {
-                for (int j = lenght-1; j > i; j--)
+                for (int j = 0; j < lenght; j++)
                 {
-                    bool resultValue = AlgorithmOfCheckIntersection(
-                        chromosome.Container.ElementAt(i),
-                        chromosome.Container.ElementAt(j)
-                        );
-
-                    if (resultValue == true)
+                    if (j != i)
                     {
-                         ExecuteService.RefactorBadGene(chromosome.Container.ElementAt(j));
+                        bool resultValue = AlgorithmOfCheckIntersection(
+                            chromosome.Container.ElementAt(i),
+                            chromosome.Container.ElementAt(j)
+                            );
 
-                        //ToDo - Проверить работу замены плохого гена
+                        if (resultValue == true)
+                        {
+                            ExecuteService.RefactorBadGene(chromosome.Container.ElementAt(i));
+                            j--;
+                        }
                     }
                 }
             }
@@ -41,8 +64,16 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                 (B.OX - A.OX)*(B.OX - A.OX)+
                 (B.OY-A.OY)*(B.OY - A.OY)
                 );
-
-            if (Convert.ToInt32(radiusLenght) > A.Radius + B.Radius)
+            /*
+             * Данное условие провярет на:
+             * -Пересечение двух окружностей
+             * -Размещение окружностей относительно границ плоскости
+             */
+            if (
+                (Convert.ToInt32(radiusLenght) > A.Radius + B.Radius) && 
+                ((A.OX-A.Radius)>=0 && (A.OX+A.Radius<=SingleSpaceParams.getInstance().Width)) &&
+                ((A.OY-A.Radius)>=0 && (A.OY+A.Radius<=SingleSpaceParams.getInstance().Height))
+               )
             {
                 return false;
             }

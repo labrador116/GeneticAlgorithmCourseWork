@@ -22,7 +22,9 @@ namespace GeneticAlgorithmCourseWork
 
         private void SetSizeForRoomDialog_Load(object sender, EventArgs e)
         {
-
+            /*TEST PARAMS*/
+            WidthTextBox.Text = "450";
+            HeightTextBox.Text = "300";
         }
 
         private void SetSizeButton_Click(object sender, EventArgs e)
@@ -32,7 +34,7 @@ namespace GeneticAlgorithmCourseWork
                 _width = int.Parse(WidthTextBox.Text);
                 _height = int.Parse(HeightTextBox.Text);
 
-                SingleSpaceParams spaceParams = SingleSpaceParams.getInstance(_height, _height);
+                SingleSpaceParams spaceParams = SingleSpaceParams.getInstance(_width, _height);
 
                 MainForm mainForm = new MainForm();
                 mainForm.Show();
