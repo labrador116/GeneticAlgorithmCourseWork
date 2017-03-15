@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.ChromosomeModel
 {
-   public class Chromosome
+   public class Gene
     {
         int _radius;
         int _oX;
         int _oY;
 
-        public Chromosome(int radius, int oX, int oY)
+        public Gene(int radius, int oX, int oY)
         {
             Radius = radius;
             OX = oX;

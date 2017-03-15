@@ -8,15 +8,15 @@ using GeneticAlgorithmCourseWork.ChromosomeModel;
 
 namespace GeneticAlgorithmCourseWork.Container
 {
-    class ChromosomesContainer
+    class Chromosome
     {
-        private List<ChromosomeModel.Chromosome> _container;
+        private List<ChromosomeModel.Gene> _container;
    
-        public ChromosomesContainer()
+        public Chromosome()
         {
-            _container = new List<Chromosome>();
+            _container = new List<Gene>();
         }
 
-        public List<Chromosome> Container { get => _container; set => _container = value; }
+        public List<Gene> Container { get => _container; set => _container = value; }
     }
 }

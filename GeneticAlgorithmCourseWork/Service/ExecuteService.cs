@@ -12,28 +12,45 @@ namespace GeneticAlgorithmCourseWork.Service
     class ExecuteService
     {
         private List<int> _radiusContainer;
-        private ChromosomesContainer _container;
+        private Population _populationContainer;
 
         public ExecuteService (List<int> container)
         {
             _radiusContainer = container;
         }
 
+        private static int getRandomValue(int from, int to)
+        {
+            return new Random().Next(from, to);
+        }
+
+        public static void RefactorBadGene(Gene gene)
+        {
+            gene.OX = getRandomValue(0, SingleSpaceParams.getInstance().Width);
+            gene.OX = getRandomValue(0, SingleSpaceParams.getInstance().Height);  
+        }
+
         public void Start()
         {
-            _container = new ChromosomesContainer();
+            _populationContainer = new Population();
 
-            foreach (var item in _radiusContainer)
+            for (int i = 0; i < 20; i++)
             {
-                Chromosome chromosome = new Chromosome(item,
-                    getRandomValue(0, SingleSpaceParams.getInstance().Width),
-                    getRandomValue(0, SingleSpaceParams.getInstance().Height)
-                    );
-                _container.Container.Add(chromosome);
-                   
+                Chromosome population = new Chromosome();
+
+                foreach (var item in _radiusContainer)
+                {
+                    Gene chromosome = new Gene(item,
+                        getRandomValue(0, SingleSpaceParams.getInstance().Width),
+                        getRandomValue(0, SingleSpaceParams.getInstance().Height)
+                        );
+                    population.Container.Add(chromosome);
+
+                }
+                _populationContainer.GetSetPopulationContainer.Add(population);
             }
 
-            if (_container != null)
+            if (_populationContainer != null)
             { 
                 Executing();
             }
@@ -44,9 +61,6 @@ namespace GeneticAlgorithmCourseWork.Service
             //ToDo
         }
 
-        private int getRandomValue(int from, int to)
-        {
-            return new Random().Next(from,to);
-        }
+        
     }
 }

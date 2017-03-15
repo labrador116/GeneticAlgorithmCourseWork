@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\ChromosomesContainer.cs" />
-    <Compile Include="ChromosomeModel\Chromosome.cs" />
+    <Compile Include="Container\Population.cs" />
+    <Compile Include="ChromosomeModel\Gene.cs" />
+    <Compile Include="Container\PopulationContainer.cs" />
+    <Compile Include="GeneticAlgorithm\GA.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
