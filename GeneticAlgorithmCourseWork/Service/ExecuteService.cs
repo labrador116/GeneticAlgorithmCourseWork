@@ -17,6 +17,9 @@ namespace GeneticAlgorithmCourseWork.Service
 
         public event EventHandler WrongParams;
 
+        public delegate void SendPopulation (Population population);
+        public event SendPopulation callback;
+
         public ExecuteService (List<int> container)
         {
             _radiusContainer = container;
@@ -38,18 +41,23 @@ namespace GeneticAlgorithmCourseWork.Service
         {
             _populationContainer = new Population();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Chromosome chromosome = new Chromosome();
 
                 foreach (var item in _radiusContainer)
                 {
-                    Gene gene = new Gene(item,
+                    Gene gene;
+
+                    if (i == 0) { 
+                        gene = new Gene(item,
                         getRandomValue(0, SingleSpaceParams.getInstance().Width),
                         getRandomValue(0, SingleSpaceParams.getInstance().Height)
                         );
+                }else{
+                        gene = new Gene(item);
+                }
                     chromosome.Container.Add(gene);
-
                 }
                 _populationContainer.GetSetPopulationContainer.Add(chromosome);
             }
@@ -70,10 +78,30 @@ namespace GeneticAlgorithmCourseWork.Service
                 return;
             }
 
-            foreach (Chromosome chromosome in _populationContainer.GetSetPopulationContainer)
+         //   foreach (Chromosome chromosome in _populationContainer.GetSetPopulationContainer)
+          //  {
+                GeneticAlgorithm.GA.CheckIntersection( _populationContainer.GetSetPopulationContainer.ElementAt(0));
+            //    }
+
+            /*Хромосома с допустимыми координатами размещения*/
+            Chromosome chromosome = _populationContainer.GetSetPopulationContainer.ElementAt(0);
+            Coordinate coords;
+            List<Coordinate> coordsList = new List<Coordinate>();
+            foreach (Gene gene in chromosome.Container)
             {
-                GeneticAlgorithm.GA.CheckIntersection(chromosome);
+                coords = new Coordinate();
+                coords.CoordX = gene.OX;
+                coords.CoordY = gene.OY;
+                coordsList.Add(coords);
             }
+
+            //Cоздаем популяцию
+            for (int i = 1; i < 10; i++)
+            {
+                //ToDo Реализоват наполнение всей популяции координатами из эталонной хромосомы
+            }
+
+            callback(_populationContainer);
             int toch = 0; //Finally
         }
 

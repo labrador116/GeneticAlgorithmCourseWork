@@ -49,6 +49,13 @@
     <Compile Include="Container\Chromosome.cs" />
     <Compile Include="Container\Population.cs" />
     <Compile Include="ChromosomeModel\Gene.cs" />
+    <Compile Include="Container\Сoordinate.cs" />
+    <Compile Include="FormForCheckResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormForCheckResult.Designer.cs">
+      <DependentUpon>FormForCheckResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="GeneticAlgorithm\GA.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -72,6 +79,9 @@
     <Compile Include="WaitingProcessForm.Designer.cs">
       <DependentUpon>WaitingProcessForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FormForCheckResult.resx">
+      <DependentUpon>FormForCheckResult.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

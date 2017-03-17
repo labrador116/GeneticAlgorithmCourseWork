@@ -18,6 +18,12 @@ namespace GeneticAlgorithmCourseWork.ChromosomeModel
             OX = oX;
             this.OY = oY;
         }
+
+        public Gene(int radius)
+        {
+            Radius = radius;
+        }
+
         public int Radius { get => _radius; set => _radius = value; }
         public int OX { get => _oX; set => _oX = value; }
         public int OY { get => _oY; set => _oY = value; }

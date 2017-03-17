@@ -35,11 +35,11 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 
         public static void CheckIntersection(Chromosome chromosome)
         {
-            int lenght = chromosome.Container.Count;
+            int length = chromosome.Container.Count;
 
-            for (int i = 0; i <lenght ; i++)
+            for (int i = 0; i <length ; i++)
             {
-                for (int j = 0; j < lenght; j++)
+                for (int j = 0; j < length; j++)
                 {
                     if (j != i)
                     {
@@ -48,29 +48,30 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                             chromosome.Container.ElementAt(j)
                             );
 
-                        if (resultValue == true)
+                        if (resultValue == true )
                         {
                             ExecuteService.RefactorBadGene(chromosome.Container.ElementAt(i));
-                            j--;
+                            j = -1;
                         }
                     }
                 }
             }
-        }
-
+        }  
         private static bool AlgorithmOfCheckIntersection(Gene A, Gene B)
         {
             double radiusLenght=Math.Sqrt(
-                (B.OX - A.OX)*(B.OX - A.OX)+
-                (B.OY-A.OY)*(B.OY - A.OY)
+                ((A.OX - B.OX)*(A.OX - B.OX))+
+                ((A.OY-B.OY)*(A.OY - B.OY))
                 );
             /*
              * Данное условие провярет на:
              * -Пересечение двух окружностей
              * -Размещение окружностей относительно границ плоскости
+             * -Размещение одной окружности внутри другой окружности
              */
             if (
-                (Convert.ToInt32(radiusLenght) > A.Radius + B.Radius) && 
+                (Convert.ToInt32(radiusLenght) > A.Radius + B.Radius) &&
+                !(Convert.ToInt32(radiusLenght) < A.Radius - B.Radius) &&
                 ((A.OX-A.Radius)>=0 && (A.OX+A.Radius<=SingleSpaceParams.getInstance().Width)) &&
                 ((A.OY-A.Radius)>=0 && (A.OY+A.Radius<=SingleSpaceParams.getInstance().Height))
                )

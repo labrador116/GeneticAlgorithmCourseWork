@@ -8,7 +8,7 @@ using GeneticAlgorithmCourseWork.ChromosomeModel;
 
 namespace GeneticAlgorithmCourseWork.Container
 {
-    class Chromosome
+  public  class Chromosome
     {
         private List<ChromosomeModel.Gene> _container;
    

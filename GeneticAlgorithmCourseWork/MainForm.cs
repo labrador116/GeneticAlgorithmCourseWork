@@ -36,14 +36,14 @@ namespace GeneticAlgorithmCourseWork
         {
             /*TEST PARAMS*/
             TEST_PARAM = new List<int>();
-            TEST_PARAM.Add(15);
-            TEST_PARAM.Add(25);
-            TEST_PARAM.Add(10);
-            TEST_PARAM.Add(6);
-            TEST_PARAM.Add(31);
-            TEST_PARAM.Add(16);
-            TEST_PARAM.Add(6);
-            TEST_PARAM.Add(13);
+            TEST_PARAM.Add(40);
+            TEST_PARAM.Add(32);
+            TEST_PARAM.Add(53);
+            TEST_PARAM.Add(33);
+            TEST_PARAM.Add(62);
+            TEST_PARAM.Add(44);
+            TEST_PARAM.Add(28);
+            TEST_PARAM.Add(70);
 
             CountOfDeviceUpDown.Value = 8;
         }
@@ -110,13 +110,22 @@ namespace GeneticAlgorithmCourseWork
 
             ExecuteService service = new ExecuteService(_radiusContainer);
             service.WrongParams += Service_WrongParams;
+            service.callback += Service_callback; ;
             service.Start();
             
-            WaitingProcessForm processForm = new WaitingProcessForm();
-            processForm.Show();
+           // WaitingProcessForm processForm = new WaitingProcessForm();
+           // processForm.Show();
             BoxForElementsOfControl.Controls.Remove((Button)sender);
 
             // this.Hide();
+        }
+
+        private void Service_callback(Population population)
+        {
+            Chromosome chromosome = population.GetSetPopulationContainer.ElementAt(0);
+
+            FormForCheckResult formCheck = new FormForCheckResult(chromosome);
+            formCheck.Show();
         }
 
         private void Service_WrongParams(object sender, EventArgs e)
