@@ -12,6 +12,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 {
     class GA
     {
+        /*Проверка всех окружностей на занимаемую плоскость*/
         public static bool CheckToArea(Chromosome chromosome)
         {
             double sumCirclesArea = 0;
@@ -32,7 +33,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                 return false;
             }
         }
-
+        /*Проверка пересечений*/
         public static bool CheckIntersection(Chromosome chromosome, int val)
         {
             int length = chromosome.Container.Count;
@@ -57,7 +58,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
             return false;
         }
-
+        /*Проверка пересечений*/
         public static void CheckIntersection(Chromosome chromosome)
         {
             int length = chromosome.Container.Count;
@@ -107,6 +108,52 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             {
                 return true;
             }
+        }
+        /*Корректировка ширины плоскасти*/
+        private static void AdjustmentOfAreA(Chromosome chromosome)
+        {
+            List<int> distanceToWeightBorder = new List<int>();
+
+            foreach (Gene gene in chromosome.Container)
+            {
+                 distanceToWeightBorder.Add(chromosome.AreaWidth - (gene.OX + gene.Radius));
+            }
+
+            chromosome.AreaWidth-=distanceToWeightBorder.Min();
+        }
+        /*Оценка фитнесс-функции*/
+        public static double EvaluationOfFitenssFunc(Chromosome chromosome)
+        {
+            AdjustmentOfAreA(chromosome);
+
+            double sumOfGenesArea = 0;
+
+            foreach (Gene gene in chromosome.Container)
+            {
+                sumOfGenesArea += Math.PI * (gene.Radius * gene.Radius);
+            }
+
+            return (sumOfGenesArea / (chromosome.AreaWidth * chromosome.AreaHeight));
+        }
+        /*Кодирование позиции размещения*/
+        public static void GA_Encode(Chromosome chromosome)
+        {
+            foreach (Gene gene in chromosome.Container)
+            {
+                String binValue = Convert.ToString(gene.NumOfPosition, 2);
+                while (binValue.Length != 4)
+                {
+                    binValue = "0" + binValue;
+                }
+
+                gene.EncodeValue = binValue;
+            }
+        }
+
+        //Кроссинговер
+        public static void CrossingOver(List<Chromosome> chromosomesContainer)
+        {
+
         }
     }
 }

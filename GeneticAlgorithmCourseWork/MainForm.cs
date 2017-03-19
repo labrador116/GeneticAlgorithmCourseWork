@@ -110,8 +110,9 @@ namespace GeneticAlgorithmCourseWork
 
             ExecuteService service = new ExecuteService(_radiusContainer);
             service.WrongParams += Service_WrongParams;
-            service.callback += Service_callback; ;
-            service.Start();
+            service.callback += Service_callback;
+           // service.Start();
+            Parallel.Invoke(()=> service.Start());
             
            // WaitingProcessForm processForm = new WaitingProcessForm();
            // processForm.Show();

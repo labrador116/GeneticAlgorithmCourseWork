@@ -49,6 +49,7 @@
     <Compile Include="Container\Chromosome.cs" />
     <Compile Include="Container\Population.cs" />
     <Compile Include="ChromosomeModel\Gene.cs" />
+    <Compile Include="Container\ResultModel.cs" />
     <Compile Include="Container\Сoordinate.cs" />
     <Compile Include="FormForCheckResult.cs">
       <SubType>Form</SubType>

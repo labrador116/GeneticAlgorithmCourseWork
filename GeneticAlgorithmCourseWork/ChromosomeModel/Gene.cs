@@ -11,12 +11,15 @@ namespace GeneticAlgorithmCourseWork.ChromosomeModel
         int _radius;
         int _oX;
         int _oY;
+        int _numOfPosition;
+        String _encodeValue;
 
-        public Gene(int radius, int oX, int oY)
+        public Gene(int radius, int oX, int oY, int numOfPosition)
         {
-            Radius = radius;
-            OX = oX;
-            this.OY = oY;
+            _radius = radius;
+            _oX = oX;
+            _oY = oY;
+            _numOfPosition = numOfPosition;
         }
 
         public Gene(int radius)
@@ -27,6 +30,7 @@ namespace GeneticAlgorithmCourseWork.ChromosomeModel
         public int Radius { get => _radius; set => _radius = value; }
         public int OX { get => _oX; set => _oX = value; }
         public int OY { get => _oY; set => _oY = value; }
-   
+        public int NumOfPosition { get => _numOfPosition; set => _numOfPosition = value; }
+        public string EncodeValue { get => _encodeValue; set => _encodeValue = value; }
     }
 }
