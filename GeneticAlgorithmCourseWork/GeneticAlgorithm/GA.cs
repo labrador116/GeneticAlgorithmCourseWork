@@ -33,6 +33,31 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
         }
 
+        public static bool CheckIntersection(Chromosome chromosome, int val)
+        {
+            int length = chromosome.Container.Count;
+
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    if (j != i)
+                    {
+                        bool resultValue = AlgorithmOfCheckIntersection(
+                            chromosome.Container.ElementAt(i),
+                            chromosome.Container.ElementAt(j)
+                            );
+
+                        if (resultValue == true)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         public static void CheckIntersection(Chromosome chromosome)
         {
             int length = chromosome.Container.Count;

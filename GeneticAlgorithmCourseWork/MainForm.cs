@@ -122,10 +122,12 @@ namespace GeneticAlgorithmCourseWork
 
         private void Service_callback(Population population)
         {
-            Chromosome chromosome = population.GetSetPopulationContainer.ElementAt(0);
-
-            FormForCheckResult formCheck = new FormForCheckResult(chromosome);
-            formCheck.Show();
+            foreach (Chromosome chromosome in population.GetSetPopulationContainer)
+            {
+                FormForCheckResult formCheck = new FormForCheckResult(chromosome);
+                formCheck.Show();
+            }
+            //Chromosome chromosome = population.GetSetPopulationContainer.ElementAt(0);
         }
 
         private void Service_WrongParams(object sender, EventArgs e)

@@ -78,10 +78,13 @@ namespace GeneticAlgorithmCourseWork.Service
                 return;
             }
 
-         //   foreach (Chromosome chromosome in _populationContainer.GetSetPopulationContainer)
-          //  {
-                GeneticAlgorithm.GA.CheckIntersection( _populationContainer.GetSetPopulationContainer.ElementAt(0));
-            //    }
+            createFirstPopulation();
+            callback(_populationContainer);
+        }
+
+        private void createFirstPopulation()
+        {
+            GeneticAlgorithm.GA.CheckIntersection(_populationContainer.GetSetPopulationContainer.ElementAt(0));
 
             /*Хромосома с допустимыми координатами размещения*/
             Chromosome chromosome = _populationContainer.GetSetPopulationContainer.ElementAt(0);
@@ -98,13 +101,25 @@ namespace GeneticAlgorithmCourseWork.Service
             //Cоздаем популяцию
             for (int i = 1; i < 10; i++)
             {
-                //ToDo Реализоват наполнение всей популяции координатами из эталонной хромосомы
+                List<Coordinate> lc = new List<Coordinate>(coordsList);
+                Chromosome chr = _populationContainer.GetSetPopulationContainer.ElementAt(i);
+                foreach (Gene gene in chr.Container)
+                {
+
+                    int randomPositionCoord = getRandomValue(0, lc.Count);
+                    Coordinate coordinate = lc.ElementAt(randomPositionCoord);
+
+                    gene.OX = coordinate.CoordX;
+                    gene.OY = coordinate.CoordY;
+
+                    lc.RemoveAt(randomPositionCoord);
+                }
+
+                if (GeneticAlgorithm.GA.CheckIntersection(chr, 0))
+                {
+                    i--;
+                }
             }
-
-            callback(_populationContainer);
-            int toch = 0; //Finally
         }
-
-        
     }
 }
