@@ -131,6 +131,9 @@ namespace GeneticAlgorithmCourseWork.Service
                      {
                          listForSelection.Add(_result.ElementAt(i).Chromosome);
                      });
+
+                    //Кроссинговер
+                    GeneticAlgorithm.GA.CrossingOver(listForSelection);
                 }
                 counter++;
             }

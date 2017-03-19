@@ -153,7 +153,44 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
         //Кроссинговер
         public static void CrossingOver(List<Chromosome> chromosomesContainer)
         {
+            int sumChromosome = chromosomesContainer.Count;
 
+            for (int i=0;i<sumChromosome; i = i + 2)
+            {
+                int dotOfCrossingOver = new Random().Next(0, chromosomesContainer.ElementAt(i).Container.Count);
+
+                Chromosome chrA = chromosomesContainer.ElementAt(i);
+                Chromosome chrB = chromosomesContainer.ElementAt(i + 1);
+
+                Chromosome child_one = OperationCO(chrA, chrB, dotOfCrossingOver);
+                Chromosome child_two = OperationCO(chrB, chrA, dotOfCrossingOver);
+
+                chromosomesContainer.Add(child_one);
+                chromosomesContainer.Add(child_two);
+            }
+        }
+
+        private static Chromosome OperationCO(Chromosome chromA, Chromosome chromB, int dotOfCross)
+        {
+            Chromosome childChromosome = new Chromosome();
+
+            for (int i = 0; i< chromA.Container.Count; i++)
+            {
+                if (i <= dotOfCross)
+                {
+                    childChromosome.Container.Add(
+                        chromA.Container.ElementAt(i)
+                        );
+                }
+                if (i > dotOfCross)
+                {
+                    childChromosome.Container.Add(
+                        chromB.Container.ElementAt(i)
+                        );
+                }
+            }
+
+            return childChromosome;
         }
     }
 }
