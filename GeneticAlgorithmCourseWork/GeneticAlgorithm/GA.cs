@@ -161,10 +161,17 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 
                 Chromosome chrA = chromosomesContainer.ElementAt(i);
                 Chromosome chrB = chromosomesContainer.ElementAt(i + 1);
-
+                //Создание потомков
                 Chromosome child_one = OperationCO(chrA, chrB, dotOfCrossingOver);
                 Chromosome child_two = OperationCO(chrB, chrA, dotOfCrossingOver);
 
+                //Устранение недопустимостей
+                checkInvalid(child_one, chrA, chrB);
+                checkInvalid(child_two, chrB, chrA);
+
+                //ToDo  незаконность
+
+                //Добавление потомков в контейнер
                 chromosomesContainer.Add(child_one);
                 chromosomesContainer.Add(child_two);
             }
@@ -191,6 +198,53 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
 
             return childChromosome;
+        }
+
+        //Проверка на недопустимость
+        private static void checkInvalid(Chromosome child_one, Chromosome chrA, Chromosome chrB)
+        {
+            object resultIsLegitimate = isInvalid(child_one);
+
+            while (resultIsLegitimate != null)
+            {
+                int value = (int)resultIsLegitimate;
+
+                child_one.Container.RemoveAt(value);
+                child_one.Container.Insert(value, chrA.Container.ElementAt(value));
+
+                resultIsLegitimate = isInvalid(child_one);
+
+                if (resultIsLegitimate != null && value == (int)resultIsLegitimate)
+                {
+                    foreach (Gene gene in chrB.Container)
+                    {
+                        if (child_one.Container.Contains(gene) == false)
+                        {
+                            child_one.Container.RemoveAt(value);
+                            child_one.Container.Insert(value, gene);
+                        }
+                    }
+                }
+                resultIsLegitimate = isInvalid(child_one);
+            }
+        }
+
+        private static object isInvalid (Chromosome chromosome)
+        {
+            for (int i=0; i < chromosome.Container.Count; i++)
+            {
+                for (int j =0; j < chromosome.Container.Count; j++)
+                {
+                    if (i != j)
+                    {
+                        if (chromosome.Container.ElementAt(i).EncodeValue == chromosome.Container.ElementAt(j).EncodeValue)
+                        {
+                            return j;
+                        }
+                    }
+                }
+            }
+            return null ;
         }
     }
 }
