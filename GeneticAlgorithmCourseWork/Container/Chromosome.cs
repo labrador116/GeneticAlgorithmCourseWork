@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeneticAlgorithmCourseWork.ChromosomeModel;
+using GeneticAlgorithmCourseWork.SpaceParam;
 
 namespace GeneticAlgorithmCourseWork.Container
 {
@@ -17,6 +18,8 @@ namespace GeneticAlgorithmCourseWork.Container
         public Chromosome()
         {
             _container = new List<Gene>();
+            areaWidth = SingleSpaceParams.getInstance().Width;
+            areaHeight = SingleSpaceParams.getInstance().Height;
         }
 
         public List<Gene> Container { get => _container; set => _container = value; }

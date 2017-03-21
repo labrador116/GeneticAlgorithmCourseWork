@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.ChromosomeModel
 {
-   public class Gene
+   public class Gene : IEquatable<Gene>
     {
         int _radius;
         int _oX;
@@ -32,5 +32,14 @@ namespace GeneticAlgorithmCourseWork.ChromosomeModel
         public int OY { get => _oY; set => _oY = value; }
         public int NumOfPosition { get => _numOfPosition; set => _numOfPosition = value; }
         public string EncodeValue { get => _encodeValue; set => _encodeValue = value; }
+
+        public bool Equals(Gene other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return (this.EncodeValue.Equals(other.EncodeValue));
+        }
     }
 }

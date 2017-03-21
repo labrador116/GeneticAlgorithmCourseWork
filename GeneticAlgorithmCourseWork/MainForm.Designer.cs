@@ -33,6 +33,8 @@
             this.CountOFDeviceLabel = new System.Windows.Forms.Label();
             this.CountOfDeviceUpDown = new System.Windows.Forms.NumericUpDown();
             this.SpaceToAccommodate = new System.Windows.Forms.PictureBox();
+            this.VariantsToEndAlgorithmListBox = new System.Windows.Forms.ComboBox();
+            this.ConditionOfEndWorkAlgTextBox = new System.Windows.Forms.Label();
             this.BoxForElementsOfControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CountOfDeviceUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpaceToAccommodate)).BeginInit();
@@ -43,6 +45,8 @@
             this.BoxForElementsOfControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BoxForElementsOfControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BoxForElementsOfControl.Controls.Add(this.ConditionOfEndWorkAlgTextBox);
+            this.BoxForElementsOfControl.Controls.Add(this.VariantsToEndAlgorithmListBox);
             this.BoxForElementsOfControl.Controls.Add(this.SetCountOfDeviceButton);
             this.BoxForElementsOfControl.Controls.Add(this.CountOFDeviceLabel);
             this.BoxForElementsOfControl.Controls.Add(this.CountOfDeviceUpDown);
@@ -89,6 +93,30 @@
             this.SpaceToAccommodate.TabIndex = 2;
             this.SpaceToAccommodate.TabStop = false;
             // 
+            // VariantsToEndAlgorithmListBox
+            // 
+            this.VariantsToEndAlgorithmListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VariantsToEndAlgorithmListBox.FormattingEnabled = true;
+            this.VariantsToEndAlgorithmListBox.Location = new System.Drawing.Point(193, 102);
+            this.VariantsToEndAlgorithmListBox.Name = "VariantsToEndAlgorithmListBox";
+            this.VariantsToEndAlgorithmListBox.Size = new System.Drawing.Size(121, 21);
+            this.VariantsToEndAlgorithmListBox.TabIndex = 4;
+            this.VariantsToEndAlgorithmListBox.Visible = false;
+            this.VariantsToEndAlgorithmListBox.SelectedValueChanged += new System.EventHandler(this.VariantsToEndAlgorithmListBox_SelectedValueChanged);
+            // 
+            // ConditionOfEndWorkAlgTextBox
+            // 
+            this.ConditionOfEndWorkAlgTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConditionOfEndWorkAlgTextBox.AutoSize = true;
+            this.ConditionOfEndWorkAlgTextBox.Location = new System.Drawing.Point(190, 86);
+            this.ConditionOfEndWorkAlgTextBox.Name = "ConditionOfEndWorkAlgTextBox";
+            this.ConditionOfEndWorkAlgTextBox.Size = new System.Drawing.Size(213, 13);
+            this.ConditionOfEndWorkAlgTextBox.TabIndex = 5;
+            this.ConditionOfEndWorkAlgTextBox.Text = "Условие завершения работы алгоритма";
+            this.ConditionOfEndWorkAlgTextBox.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -114,6 +142,8 @@
         private System.Windows.Forms.Label CountOFDeviceLabel;
         private System.Windows.Forms.NumericUpDown CountOfDeviceUpDown;
         private System.Windows.Forms.PictureBox SpaceToAccommodate;
+        private System.Windows.Forms.ComboBox VariantsToEndAlgorithmListBox;
+        private System.Windows.Forms.Label ConditionOfEndWorkAlgTextBox;
     }
 }
 

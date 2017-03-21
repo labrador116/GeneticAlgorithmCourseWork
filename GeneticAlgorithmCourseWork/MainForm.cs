@@ -17,6 +17,9 @@ namespace GeneticAlgorithmCourseWork
     {
         List<TextBox> _radiusTextBox;
         List<int> _radiusContainer;
+        TextBox _FieldForConditionOfTerminate_numOfPopulation;
+        TextBox _FieldForConditionOfTerminate_criterionOfQuality;
+        Label LabelWithTip;
 
         List<int> TEST_PARAM;
         public MainForm()
@@ -72,8 +75,15 @@ namespace GeneticAlgorithmCourseWork
                 Button setDevicesValues = new Button();
                 setDevicesValues.Text = Properties.Settings.Default.setDivicesText;
                 setDevicesValues.AutoSize = true;
+
                 setDevicesValues.Location = new Point(Properties.Settings.Default.constX, 
-                    Properties.Settings.Default.constY + (30 * (_radiusTextBox.Count+1)));
+                Properties.Settings.Default.constY + (30 * (_radiusTextBox.Count+1)));
+
+                VariantsToEndAlgorithmListBox.Items.Add("По кол-ву популяций");
+                VariantsToEndAlgorithmListBox.Items.Add("По критерию качества");
+                ConditionOfEndWorkAlgTextBox.Visible = true;
+                VariantsToEndAlgorithmListBox.Visible = true;
+
                 setDevicesValues.Click += new EventHandler(setDeviceButtonHandler);
                 BoxForElementsOfControl.Controls.Add(setDevicesValues);
             }
@@ -103,6 +113,8 @@ namespace GeneticAlgorithmCourseWork
                 }
             }
 
+            CheckOnEmptyFields();
+
             foreach (TextBox item in _radiusTextBox)
             {
                 BoxForElementsOfControl.Controls.Remove(item);
@@ -111,7 +123,6 @@ namespace GeneticAlgorithmCourseWork
             ExecuteService service = new ExecuteService(_radiusContainer);
             service.WrongParams += Service_WrongParams;
             service.callback += Service_callback;
-           // service.Start();
             Parallel.Invoke(()=> service.Start());
             
            // WaitingProcessForm processForm = new WaitingProcessForm();
@@ -134,6 +145,87 @@ namespace GeneticAlgorithmCourseWork
         private void Service_WrongParams(object sender, EventArgs e)
         {
             MessageBox.Show("Не корректные входные параметры! Площадь пространства должна быть не менее, чем в два раза больше площади покрытия всеми устройствами.");
+        }
+
+        private void VariantsToEndAlgorithmListBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (LabelWithTip != null)
+            {
+                LabelWithTip.Dispose();
+            }
+            if (_FieldForConditionOfTerminate_numOfPopulation != null)
+            {
+                _FieldForConditionOfTerminate_numOfPopulation.Dispose();
+            }
+            if (_FieldForConditionOfTerminate_criterionOfQuality != null)
+            {
+                _FieldForConditionOfTerminate_criterionOfQuality.Dispose();
+            }
+
+            int selectElement = VariantsToEndAlgorithmListBox.SelectedIndex;
+            LabelWithTip = new Label();
+            LabelWithTip.Width = 200;
+            LabelWithTip.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+                    VariantsToEndAlgorithmListBox.Location.Y + 30);
+
+            if (selectElement == 0)
+            {
+                LabelWithTip.Text = "Введите предельное число популяций";
+                _FieldForConditionOfTerminate_numOfPopulation = new TextBox();
+                _FieldForConditionOfTerminate_numOfPopulation.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+                    VariantsToEndAlgorithmListBox.Location.Y+50);
+
+                BoxForElementsOfControl.Controls.Add(_FieldForConditionOfTerminate_numOfPopulation);
+            }
+            else
+            {
+                LabelWithTip.Text = "Введите требуемый критерий";
+                _FieldForConditionOfTerminate_criterionOfQuality = new TextBox();
+                _FieldForConditionOfTerminate_criterionOfQuality.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+                    VariantsToEndAlgorithmListBox.Location.Y + 50);
+
+                BoxForElementsOfControl.Controls.Add(_FieldForConditionOfTerminate_criterionOfQuality);
+            }
+            BoxForElementsOfControl.Controls.Add(LabelWithTip);
+        }
+
+        private void CheckOnEmptyFields()
+        {
+            if (_FieldForConditionOfTerminate_criterionOfQuality != null || _FieldForConditionOfTerminate_numOfPopulation != null)
+            {
+                if (_FieldForConditionOfTerminate_numOfPopulation != null)
+                {
+                    if (_FieldForConditionOfTerminate_numOfPopulation.Text != String.Empty)
+                    {
+                        SingleSpaceParams.getInstance().NumOfPopulation = int.Parse(_FieldForConditionOfTerminate_numOfPopulation.Text);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Введите критерий завершения работы программы!");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (_FieldForConditionOfTerminate_criterionOfQuality != null)
+                    {
+                        if (_FieldForConditionOfTerminate_criterionOfQuality.Text != String.Empty)
+                        {
+                            SingleSpaceParams.getInstance().CriterionOfQuality = double.Parse(_FieldForConditionOfTerminate_criterionOfQuality.Text);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Введите критерий завершения работы программы!");
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите условия завершения работы программы!");
+                return;
+            }
         }
     }
 }

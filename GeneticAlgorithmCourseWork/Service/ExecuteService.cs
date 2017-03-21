@@ -95,6 +95,7 @@ namespace GeneticAlgorithmCourseWork.Service
             {
                 if (counter == 0)
                 {
+                    //Оценивание хромосом
                     Parallel.ForEach(_populationContainer.GetSetPopulationContainer,parOps, chr =>
                      {
                          ResultModel resM = new ResultModel();
@@ -107,6 +108,7 @@ namespace GeneticAlgorithmCourseWork.Service
                 }
                 else
                 {
+                    //Кодирование всех хромосом
                     Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
                     {
                         GeneticAlgorithm.GA.GA_Encode(chr);
@@ -134,6 +136,27 @@ namespace GeneticAlgorithmCourseWork.Service
 
                     //Кроссинговер
                     GeneticAlgorithm.GA.CrossingOver(listForSelection);
+
+                    _populationContainer = new Population();
+
+                    Parallel.ForEach(listForSelection, parOps, chr =>
+                    {
+                        _populationContainer.GetSetPopulationContainer.Add(chr);
+                    });
+
+                    //ToDo мутация
+
+                    //Декодирование и оценивание всех хромосом
+                    Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
+                    {
+                        GeneticAlgorithm.GA.GA_Decode(chr);
+
+                        ResultModel resM = new ResultModel();
+                        resM.Ratio = GeneticAlgorithm.GA.EvaluationOfFitenssFunc(chr);
+                        resM.Chromosome = chr;
+
+                        _result.Add(resM);
+                    });
                 }
                 counter++;
             }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
@@ -46,7 +47,9 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                     {
                         bool resultValue = AlgorithmOfCheckIntersection(
                             chromosome.Container.ElementAt(i),
-                            chromosome.Container.ElementAt(j)
+                            chromosome.Container.ElementAt(j),
+                            chromosome.AreaWidth,
+                            chromosome.AreaHeight
                             );
 
                         if (resultValue == true)
@@ -71,7 +74,9 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                     {
                         bool resultValue = AlgorithmOfCheckIntersection(
                             chromosome.Container.ElementAt(i),
-                            chromosome.Container.ElementAt(j)
+                            chromosome.Container.ElementAt(j),
+                            chromosome.AreaWidth,
+                            chromosome.AreaHeight
                             );
 
                         if (resultValue == true )
@@ -83,7 +88,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                 }
             }
         }  
-        private static bool AlgorithmOfCheckIntersection(Gene A, Gene B)
+        private static bool AlgorithmOfCheckIntersection(Gene A, Gene B, int width, int height)
         {
             double radiusLenght=Math.Sqrt(
                 ((A.OX - B.OX)*(A.OX - B.OX))+
@@ -95,11 +100,12 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
              * -Размещение окружностей относительно границ плоскости
              * -Размещение одной окружности внутри другой окружности
              */
+             //ToDo проверка на размеры плоскости индивидуально по хромосоме
             if (
                 (Convert.ToInt32(radiusLenght) > A.Radius + B.Radius) &&
                 !(Convert.ToInt32(radiusLenght) < A.Radius - B.Radius) &&
-                ((A.OX-A.Radius)>=0 && (A.OX+A.Radius<=SingleSpaceParams.getInstance().Width)) &&
-                ((A.OY-A.Radius)>=0 && (A.OY+A.Radius<=SingleSpaceParams.getInstance().Height))
+                ((A.OX-A.Radius)>=0 && (A.OX+A.Radius <= width)) &&
+                ((A.OY-A.Radius)>=0 && (A.OY+A.Radius <= height))
                )
             {
                 return false;
@@ -113,14 +119,18 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
         private static void AdjustmentOfAreA(Chromosome chromosome)
         {
             List<int> distanceToWeightBorder = new List<int>();
+            List<int> distanceToHeghtBorder = new List<int>();
 
             foreach (Gene gene in chromosome.Container)
             {
                  distanceToWeightBorder.Add(chromosome.AreaWidth - (gene.OX + gene.Radius));
+                distanceToHeghtBorder.Add(chromosome.AreaHeight-(gene.OY + gene.Radius));
             }
 
             chromosome.AreaWidth-=distanceToWeightBorder.Min();
+            chromosome.AreaHeight-=distanceToHeghtBorder.Min();
         }
+
         /*Оценка фитнесс-функции*/
         public static double EvaluationOfFitenssFunc(Chromosome chromosome)
         {
@@ -150,6 +160,17 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
         }
 
+        public static void GA_Decode(Chromosome chromosome)
+        {
+            foreach (Gene gene in chromosome.Container)
+            {
+                if (gene.NumOfPosition == Convert.ToInt32(gene.EncodeValue,2))
+                {
+                    gene.EncodeValue = null;
+                }
+            }
+        }
+
         //Кроссинговер
         public static void CrossingOver(List<Chromosome> chromosomesContainer)
         {
@@ -169,7 +190,9 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                 checkInvalid(child_one, chrA, chrB);
                 checkInvalid(child_two, chrB, chrA);
 
-                //ToDo  незаконность
+                //Устранение незаконности
+                checkLegalDecision(child_one, chrA, chrB);
+                checkLegalDecision(child_two, chrB, chrA);
 
                 //Добавление потомков в контейнер
                 chromosomesContainer.Add(child_one);
@@ -177,6 +200,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
         }
 
+         //Операция кроссинговера
         private static Chromosome OperationCO(Chromosome chromA, Chromosome chromB, int dotOfCross)
         {
             Chromosome childChromosome = new Chromosome();
@@ -222,6 +246,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                         {
                             child_one.Container.RemoveAt(value);
                             child_one.Container.Insert(value, gene);
+                            break;
                         }
                     }
                 }
@@ -245,6 +270,19 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
                 }
             }
             return null ;
+        }
+
+        //Проверка на законность решения. Если нет, то создается новая хромосома.
+        private static void checkLegalDecision(Chromosome child, Chromosome parentA, Chromosome parentB)
+        {
+            while (CheckIntersection(child, 0) != false)
+            {
+                Thread.Sleep(100);
+                int dotOfCrossingOver = new Random().Next(0, parentA.Container.Count);
+                child = OperationCO(parentA, parentB, dotOfCrossingOver);
+                checkInvalid(child, parentA, parentB);
+            }
+
         }
     }
 }

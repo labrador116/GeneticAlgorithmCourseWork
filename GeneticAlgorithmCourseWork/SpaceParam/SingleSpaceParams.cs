@@ -11,6 +11,8 @@ namespace GeneticAlgorithmCourseWork.SpaceParam
         private static SingleSpaceParams instance;
         private int _width;
         private int _height;
+        private double _criterionOfQuality;
+        private int numOfPopulation;
 
         private SingleSpaceParams(int width, int height)
         {
@@ -20,6 +22,8 @@ namespace GeneticAlgorithmCourseWork.SpaceParam
 
         public int Width { get => _width; set => _width = value; }
         public int Height { get => _height; set => _height = value; }
+        public double CriterionOfQuality { get => _criterionOfQuality; set => _criterionOfQuality = value; }
+        public int NumOfPopulation { get => numOfPopulation; set => numOfPopulation = value; }
 
         public static SingleSpaceParams getInstance()
         {
