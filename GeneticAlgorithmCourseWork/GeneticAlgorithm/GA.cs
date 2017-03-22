@@ -284,5 +284,42 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
             }
 
         }
+
+        public static void Mutation(Chromosome chr)
+        {
+            var random = new Random();
+
+            if (random.NextDouble() < SingleSpaceParams.getInstance().PropabilityOfMutation)
+            {
+                while (CheckIntersection(chr, 0) != false)
+                {
+                    int breakPoint = new Random().Next(0, chr.Container.Count - 1);
+                    List<Gene> genesMove = new List<Gene>();
+                    int counter = 0;
+                    foreach (Gene gene in chr.Container)
+                    {
+                        if (counter < breakPoint)
+                        {
+                            genesMove.Add(gene);
+                            counter++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    foreach(Gene gene in genesMove)
+                    {
+                        chr.Container.Remove(gene);
+                        chr.Container.Add(gene);
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,12 @@
       <DependentUpon>FormForCheckResult.cs</DependentUpon>
     </Compile>
     <Compile Include="GeneticAlgorithm\GA.cs" />
+    <Compile Include="GraphicWithDataOfChromosomes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphicWithDataOfChromosomes.Designer.cs">
+      <DependentUpon>GraphicWithDataOfChromosomes.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +90,9 @@
     <EmbeddedResource Include="FormForCheckResult.resx">
       <DependentUpon>FormForCheckResult.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraphicWithDataOfChromosomes.resx">
+      <DependentUpon>GraphicWithDataOfChromosomes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +108,9 @@
     </Compile>
     <EmbeddedResource Include="SetSizeForRoomDialog.resx">
       <DependentUpon>SetSizeForRoomDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WaitingProcessForm.resx">
+      <DependentUpon>WaitingProcessForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,4 +1,5 @@
-﻿using GeneticAlgorithmCourseWork.Container;
+﻿using GeneticAlgorithmCourseWork.ChromosomeModel;
+using GeneticAlgorithmCourseWork.Container;
 using GeneticAlgorithmCourseWork.Service;
 using GeneticAlgorithmCourseWork.SpaceParam;
 using System;
@@ -8,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,6 +22,11 @@ namespace GeneticAlgorithmCourseWork
         TextBox _FieldForConditionOfTerminate_numOfPopulation;
         TextBox _FieldForConditionOfTerminate_criterionOfQuality;
         Label LabelWithTip;
+        Chromosome _chromosome;
+        WaitingProcessForm _processForm;
+       
+
+
 
         List<int> TEST_PARAM;
         public MainForm()
@@ -29,7 +36,7 @@ namespace GeneticAlgorithmCourseWork
             SpaceToAccommodate.Height = SingleSpaceParams.getInstance().Height;
 
             if (this.Width < SpaceToAccommodate.Width)
-            {  this.Width += (SpaceToAccommodate.Width / 2); }
+            {  this.Width += (SpaceToAccommodate.Width); }
 
             if (this.Height < SpaceToAccommodate.Height)
             { this.Height += (SpaceToAccommodate.Height / 2); }
@@ -81,8 +88,13 @@ namespace GeneticAlgorithmCourseWork
 
                 VariantsToEndAlgorithmListBox.Items.Add("По кол-ву популяций");
                 VariantsToEndAlgorithmListBox.Items.Add("По критерию качества");
+                VariantsToEndAlgorithmListBox.Items.Add("Наилучшее решение");
                 ConditionOfEndWorkAlgTextBox.Visible = true;
                 VariantsToEndAlgorithmListBox.Visible = true;
+
+                MutationLabel.Visible = true;
+                MutationTextBox.Visible = true;
+                FirstContainerForElements.Visible = true;
 
                 setDevicesValues.Click += new EventHandler(setDeviceButtonHandler);
                 BoxForElementsOfControl.Controls.Add(setDevicesValues);
@@ -113,6 +125,34 @@ namespace GeneticAlgorithmCourseWork
                 }
             }
 
+            if(MutationTextBox.Text != String.Empty)
+            {
+                if (double.Parse(MutationTextBox.Text) >= 0 && double.Parse(MutationTextBox.Text) <= 1)
+                {
+                    SingleSpaceParams.getInstance().PropabilityOfMutation = double.Parse(MutationTextBox.Text);
+                }
+                else
+                {
+                    MutationTextBox.BackColor = Color.Red;
+                    return;
+                }
+            }
+            else
+            {
+                MutationTextBox.BackColor = Color.Red;
+                return;
+            }
+
+            if(SumChromosomeTextBox.Text != String.Empty)
+            {
+                SingleSpaceParams.getInstance().SumOfChromosomeInPopulation = int.Parse(SumChromosomeTextBox.Text);
+            }
+            else
+            {
+                SumChromosomeTextBox.BackColor = Color.Red;
+                return;
+            }
+
             CheckOnEmptyFields();
 
             foreach (TextBox item in _radiusTextBox)
@@ -123,23 +163,21 @@ namespace GeneticAlgorithmCourseWork
             ExecuteService service = new ExecuteService(_radiusContainer);
             service.WrongParams += Service_WrongParams;
             service.callback += Service_callback;
-            Parallel.Invoke(()=> service.Start());
-            
-           // WaitingProcessForm processForm = new WaitingProcessForm();
-           // processForm.Show();
+
+           // _processForm = new WaitingProcessForm();
+          
             BoxForElementsOfControl.Controls.Remove((Button)sender);
 
-            // this.Hide();
+            //this.Hide();
+
+            Parallel.Invoke(()=> service.Start());
         }
 
-        private void Service_callback(Population population)
+        private void Service_callback(Chromosome chromosome)
         {
-            foreach (Chromosome chromosome in population.GetSetPopulationContainer)
-            {
-                FormForCheckResult formCheck = new FormForCheckResult(chromosome);
-                formCheck.Show();
-            }
-            //Chromosome chromosome = population.GetSetPopulationContainer.ElementAt(0);
+            _chromosome = chromosome;
+            SpaceToAccommodate.Refresh();
+            this.Visible = true;
         }
 
         private void Service_WrongParams(object sender, EventArgs e)
@@ -161,37 +199,45 @@ namespace GeneticAlgorithmCourseWork
             {
                 _FieldForConditionOfTerminate_criterionOfQuality.Dispose();
             }
+            SingleSpaceParams.getInstance().TheBestResolve = -1;
 
             int selectElement = VariantsToEndAlgorithmListBox.SelectedIndex;
             LabelWithTip = new Label();
-            LabelWithTip.Width = 200;
-            LabelWithTip.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+            LabelWithTip.Width = 300;
+            LabelWithTip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            LabelWithTip.Location = new Point(VariantsToEndAlgorithmListBox.Location.X-85,
                     VariantsToEndAlgorithmListBox.Location.Y + 30);
 
             if (selectElement == 0)
             {
                 LabelWithTip.Text = "Введите предельное число популяций";
                 _FieldForConditionOfTerminate_numOfPopulation = new TextBox();
-                _FieldForConditionOfTerminate_numOfPopulation.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+                _FieldForConditionOfTerminate_numOfPopulation.Location = new Point(VariantsToEndAlgorithmListBox.Location.X+20,
                     VariantsToEndAlgorithmListBox.Location.Y+50);
 
-                BoxForElementsOfControl.Controls.Add(_FieldForConditionOfTerminate_numOfPopulation);
+                SecondContainerForElements.Controls.Add(_FieldForConditionOfTerminate_numOfPopulation);
             }
-            else
+            if (selectElement == 1)
             {
-                LabelWithTip.Text = "Введите требуемый критерий";
+                LabelWithTip.Location = new Point(VariantsToEndAlgorithmListBox.Location.X - 100,
+                    VariantsToEndAlgorithmListBox.Location.Y + 30);
+                LabelWithTip.Text = "Введите требуемый критерий (от 0 до 1)";
                 _FieldForConditionOfTerminate_criterionOfQuality = new TextBox();
-                _FieldForConditionOfTerminate_criterionOfQuality.Location = new Point(VariantsToEndAlgorithmListBox.Location.X,
+                _FieldForConditionOfTerminate_criterionOfQuality.Location = new Point(SumChromosomeTextBox.Location.X,
                     VariantsToEndAlgorithmListBox.Location.Y + 50);
 
-                BoxForElementsOfControl.Controls.Add(_FieldForConditionOfTerminate_criterionOfQuality);
+                SecondContainerForElements.Controls.Add(_FieldForConditionOfTerminate_criterionOfQuality);
             }
-            BoxForElementsOfControl.Controls.Add(LabelWithTip);
+            if (selectElement == 2)
+            {
+                SingleSpaceParams.getInstance().TheBestResolve = 1;
+            }
+                SecondContainerForElements.Controls.Add(LabelWithTip);
         }
 
         private void CheckOnEmptyFields()
         {
-            if (_FieldForConditionOfTerminate_criterionOfQuality != null || _FieldForConditionOfTerminate_numOfPopulation != null)
+            if (_FieldForConditionOfTerminate_criterionOfQuality != null || _FieldForConditionOfTerminate_numOfPopulation != null || SingleSpaceParams.getInstance().TheBestResolve != -1)
             {
                 if (_FieldForConditionOfTerminate_numOfPopulation != null)
                 {
@@ -211,7 +257,15 @@ namespace GeneticAlgorithmCourseWork
                     {
                         if (_FieldForConditionOfTerminate_criterionOfQuality.Text != String.Empty)
                         {
-                            SingleSpaceParams.getInstance().CriterionOfQuality = double.Parse(_FieldForConditionOfTerminate_criterionOfQuality.Text);
+                            if(double.Parse(_FieldForConditionOfTerminate_criterionOfQuality.Text)>=0 && double.Parse(_FieldForConditionOfTerminate_criterionOfQuality.Text) <= 1)
+                            {
+                                SingleSpaceParams.getInstance().CriterionOfQuality = double.Parse(_FieldForConditionOfTerminate_criterionOfQuality.Text);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Не корректный критерий!");
+                                return;
+                            }
                         }
                         else
                         {
@@ -227,5 +281,59 @@ namespace GeneticAlgorithmCourseWork
                 return;
             }
         }
+
+        private void MutationTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar!=',' && e.KeyChar != Convert.ToChar(8))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void SumChromosomeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void SpaceToAccommodate_Paint(object sender, PaintEventArgs e)
+        {
+            int count = 0;
+            if (_chromosome != null)
+            {
+                SpaceToAccommodate.Width = _chromosome.AreaWidth;
+                SpaceToAccommodate.Height = _chromosome.AreaHeight;
+
+                foreach (Gene gene in _chromosome.Container)
+                {
+                    double x;
+                    double y;
+
+                    for (double i = 0; i < Math.PI * 2; i = i + 0.01)
+                    {
+                        x = Convert.ToDouble(gene.OX) + Convert.ToDouble(gene.Radius) * Math.Cos(i);
+                        y = Convert.ToDouble(gene.OY) + Convert.ToDouble(gene.Radius) * Math.Sin(i);
+
+                        int x2 = Convert.ToInt32(x);
+                        int y2 = Convert.ToInt32(y);
+                        e.Graphics.DrawLine(new Pen(Color.Black), new Point(x2, y2), new Point(x2 + 1, y2));
+                        e.Graphics.Save();
+                    }
+                    Label label = new Label();
+                    label.Name = "label" + count;
+                    label.Text = count.ToString();
+                    label.Width = 10;
+                    label.Height = 13;
+                    label.Location = new Point(gene.OX, gene.OY);
+                    SpaceToAccommodate.Controls.Add(label);
+                    count++;
+                }
+            }
+        }
     }
+    
 }

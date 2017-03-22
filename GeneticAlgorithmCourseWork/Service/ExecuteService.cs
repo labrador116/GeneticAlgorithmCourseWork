@@ -21,7 +21,7 @@ namespace GeneticAlgorithmCourseWork.Service
 
 
         public event EventHandler WrongParams;
-        public delegate void SendPopulation (Population population);
+        public delegate void SendPopulation (Chromosome chromosome);
         public event SendPopulation callback;
 
         public ExecuteService (List<int> container)
@@ -96,27 +96,71 @@ namespace GeneticAlgorithmCourseWork.Service
                 if (counter == 0)
                 {
                     //Оценивание хромосом
-                    Parallel.ForEach(_populationContainer.GetSetPopulationContainer,parOps, chr =>
+                   // Parallel.ForEach(_populationContainer.GetSetPopulationContainer,parOps, chr =>
+                   foreach(Chromosome chr in _populationContainer.GetSetPopulationContainer)
                      {
                          ResultModel resM = new ResultModel();
 
                          resM.Ratio = GeneticAlgorithm.GA.EvaluationOfFitenssFunc(chr);
                          resM.Chromosome = chr;
-
+                         
                          _result.Add(resM);
-                     });
+                     }
                 }
                 else
                 {
                     //Кодирование всех хромосом
-                    Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
+                    //Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
+                    foreach(Chromosome chr in _populationContainer.GetSetPopulationContainer)
                     {
                         GeneticAlgorithm.GA.GA_Encode(chr);
-                    });
-                    
+                    }
+                   
                     //Селекция
                     _result.Sort((a, b) => b.Ratio.CompareTo(a.Ratio));
 
+                    SingleSpaceParams.getInstance().GlobalResultContainerGetSet.Add(_result.ElementAt(0));
+
+                    //Выход из алгоритма
+                    if (SingleSpaceParams.getInstance().NumOfPopulation != -1)
+                    {
+                        if (counter == SingleSpaceParams.getInstance().NumOfPopulation)
+                        {
+                            break;
+                        }
+                    }
+                    if (SingleSpaceParams.getInstance().CriterionOfQuality != -1)
+                    {
+                        if(_result.ElementAt(0).Ratio >= SingleSpaceParams.getInstance().CriterionOfQuality)
+                        {
+                            break;
+                        }
+                    }
+                    if(SingleSpaceParams.getInstance().TheBestResolve != -1)
+                    {
+                        int countAccessResult= 0;
+                        for (int i = 1; i < SingleSpaceParams.getInstance().GlobalResultContainerGetSet.Count; i++)
+                        {
+                            ResultModel result = SingleSpaceParams.getInstance().GlobalResultContainerGetSet.ElementAt(i);
+
+                            if(result.Ratio == SingleSpaceParams.getInstance().GlobalResultContainerGetSet.ElementAt(i - 1).Ratio)
+                            {
+                                countAccessResult++;
+                            }
+                            else
+                            {
+                                countAccessResult = 0;
+                            }
+
+                            if (countAccessResult == 5)
+                            {
+                                callback(_result.ElementAt(0).Chromosome);
+                                return;
+                            }
+                        }
+                    }
+
+                    //Вычисляем кол-во родителей
                     int count;
                     if ((_result.Count / 2) % 2 == 0)
                     {
@@ -129,41 +173,45 @@ namespace GeneticAlgorithmCourseWork.Service
 
                     //Список хромосом для Кроссинговера
                     List<Chromosome> listForSelection = new List<Chromosome>();
-                    Parallel.For(0, count, i =>
+                    //Parallel.For(0, count, i =>
+                    for(int i =0;i<count;i++)
                      {
                          listForSelection.Add(_result.ElementAt(i).Chromosome);
-                     });
+                     }
+                    
 
                     //Кроссинговер
                     GeneticAlgorithm.GA.CrossingOver(listForSelection);
 
                     _populationContainer = new Population();
 
-                    Parallel.ForEach(listForSelection, parOps, chr =>
+                    //Мутация и размещение в контейнере 
+                  //  Parallel.ForEach(listForSelection, parOps, chr =>
+                  foreach(Chromosome chr in listForSelection)
                     {
+                        GeneticAlgorithm.GA.Mutation(chr);
                         _populationContainer.GetSetPopulationContainer.Add(chr);
-                    });
+                    }
 
                     //ToDo мутация
-
+                    _result = new List<ResultModel>();
                     //Декодирование и оценивание всех хромосом
-                    Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
-                    {
-                        GeneticAlgorithm.GA.GA_Decode(chr);
+                    //Parallel.ForEach(_populationContainer.GetSetPopulationContainer, parOps, chr =>
+                    foreach(Chromosome chr in _populationContainer.GetSetPopulationContainer)
+                     {
+                         GeneticAlgorithm.GA.GA_Decode(chr);
 
-                        ResultModel resM = new ResultModel();
-                        resM.Ratio = GeneticAlgorithm.GA.EvaluationOfFitenssFunc(chr);
-                        resM.Chromosome = chr;
+                         ResultModel resM = new ResultModel();
+                         resM.Ratio = GeneticAlgorithm.GA.EvaluationOfFitenssFunc(chr);
+                         resM.Chromosome = chr;
 
-                        _result.Add(resM);
-                    });
+                         _result.Add(resM);
+                     }
+                    
                 }
                 counter++;
             }
-                    
-
-        
-            callback(_populationContainer);
+            callback(_result.ElementAt(0).Chromosome);
         }
 
         private void createFirstPopulation()
