@@ -14,7 +14,7 @@ namespace GeneticAlgorithmCourseWork.Container
         private List<ChromosomeModel.Gene> _container;
         private int areaWidth;
         private int areaHeight;
-   
+        
         public Chromosome()
         {
             _container = new List<Gene>();

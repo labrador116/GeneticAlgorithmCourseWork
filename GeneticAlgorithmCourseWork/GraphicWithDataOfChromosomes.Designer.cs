@@ -31,45 +31,43 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.chartForChromosomes = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chartForChromosomes)).BeginInit();
             this.SuspendLayout();
             // 
-            // chart1
+            // chartForChromosomes
             // 
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            this.chartForChromosomes.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(97, 12);
-            this.chart1.Name = "chart1";
-            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
+            this.chartForChromosomes.Legends.Add(legend1);
+            this.chartForChromosomes.Location = new System.Drawing.Point(12, 12);
+            this.chartForChromosomes.Name = "chartForChromosomes";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
-            series1.MarkerBorderColor = System.Drawing.Color.Red;
             series1.Name = "Series1";
-            series1.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(455, 449);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            this.chartForChromosomes.Series.Add(series1);
+            this.chartForChromosomes.Size = new System.Drawing.Size(1160, 570);
+            this.chartForChromosomes.TabIndex = 0;
+            this.chartForChromosomes.Text = "chart1";
             // 
             // GraphicWithDataOfChromosomes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(681, 584);
-            this.Controls.Add(this.chart1);
+            this.ClientSize = new System.Drawing.Size(1193, 575);
+            this.Controls.Add(this.chartForChromosomes);
             this.Name = "GraphicWithDataOfChromosomes";
             this.Text = "GraphicWithDataOfChromosomes";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.Load += new System.EventHandler(this.GraphicWithDataOfChromosomes_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chartForChromosomes)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartForChromosomes;
     }
 }

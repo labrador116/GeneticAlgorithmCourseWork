@@ -44,18 +44,7 @@ namespace GeneticAlgorithmCourseWork
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            /*TEST PARAMS*/
-            TEST_PARAM = new List<int>();
-            TEST_PARAM.Add(40);
-            TEST_PARAM.Add(32);
-            TEST_PARAM.Add(53);
-            TEST_PARAM.Add(33);
-            TEST_PARAM.Add(62);
-            TEST_PARAM.Add(44);
-            TEST_PARAM.Add(28);
-            TEST_PARAM.Add(70);
-
-            CountOfDeviceUpDown.Value = 8;
+            
         }
 
         private void SetCountOfDeviceButton_Click(object sender, EventArgs e)
@@ -71,8 +60,7 @@ namespace GeneticAlgorithmCourseWork
                         Properties.Settings.Default.constY + (30*i));
 
                     textbox.Name = "textbox"+i;
-                    /*TEST PARAMS*/
-                    textbox.Text = TEST_PARAM.ElementAt(i).ToString();
+                 
                     textbox.KeyPress += Textbox_KeyPress;
                 
                     BoxForElementsOfControl.Controls.Add(textbox);
@@ -178,6 +166,7 @@ namespace GeneticAlgorithmCourseWork
             _chromosome = chromosome;
             SpaceToAccommodate.Refresh();
             this.Visible = true;
+            BuildChartButton.Visible = true;
         }
 
         private void Service_WrongParams(object sender, EventArgs e)
@@ -307,7 +296,7 @@ namespace GeneticAlgorithmCourseWork
             {
                 SpaceToAccommodate.Width = _chromosome.AreaWidth;
                 SpaceToAccommodate.Height = _chromosome.AreaHeight;
-
+                
                 foreach (Gene gene in _chromosome.Container)
                 {
                     double x;
@@ -333,6 +322,13 @@ namespace GeneticAlgorithmCourseWork
                     count++;
                 }
             }
+        }
+
+        private void BuildChartButton_Click(object sender, EventArgs e)
+        {
+            SpaceToAccommodate.Update();
+            GraphicWithDataOfChromosomes graphic = new GraphicWithDataOfChromosomes();
+            graphic.Show();
         }
     }
     

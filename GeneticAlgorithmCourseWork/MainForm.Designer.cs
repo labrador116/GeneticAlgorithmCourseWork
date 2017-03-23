@@ -41,6 +41,7 @@
             this.CountOFDeviceLabel = new System.Windows.Forms.Label();
             this.CountOfDeviceUpDown = new System.Windows.Forms.NumericUpDown();
             this.SpaceToAccommodate = new System.Windows.Forms.PictureBox();
+            this.BuildChartButton = new System.Windows.Forms.Button();
             this.BoxForElementsOfControl.SuspendLayout();
             this.FirstContainerForElements.SuspendLayout();
             this.SecondContainerForElements.SuspendLayout();
@@ -165,10 +166,11 @@
             // 
             // CountOFDeviceLabel
             // 
-            this.CountOFDeviceLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.CountOFDeviceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CountOFDeviceLabel.AutoSize = true;
             this.CountOFDeviceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CountOFDeviceLabel.Location = new System.Drawing.Point(2, 13);
+            this.CountOFDeviceLabel.Location = new System.Drawing.Point(6, 9);
             this.CountOFDeviceLabel.Name = "CountOFDeviceLabel";
             this.CountOFDeviceLabel.Size = new System.Drawing.Size(447, 22);
             this.CountOFDeviceLabel.TabIndex = 1;
@@ -186,16 +188,30 @@
             this.SpaceToAccommodate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SpaceToAccommodate.Location = new System.Drawing.Point(0, 0);
             this.SpaceToAccommodate.Name = "SpaceToAccommodate";
-            this.SpaceToAccommodate.Size = new System.Drawing.Size(594, 647);
+            this.SpaceToAccommodate.Size = new System.Drawing.Size(594, 485);
             this.SpaceToAccommodate.TabIndex = 2;
             this.SpaceToAccommodate.TabStop = false;
             this.SpaceToAccommodate.Paint += new System.Windows.Forms.PaintEventHandler(this.SpaceToAccommodate_Paint);
+            // 
+            // BuildChartButton
+            // 
+            this.BuildChartButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BuildChartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BuildChartButton.Location = new System.Drawing.Point(112, 576);
+            this.BuildChartButton.Name = "BuildChartButton";
+            this.BuildChartButton.Size = new System.Drawing.Size(382, 59);
+            this.BuildChartButton.TabIndex = 3;
+            this.BuildChartButton.Text = "Построить график";
+            this.BuildChartButton.UseVisualStyleBackColor = true;
+            this.BuildChartButton.Visible = false;
+            this.BuildChartButton.Click += new System.EventHandler(this.BuildChartButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1407, 647);
+            this.Controls.Add(this.BuildChartButton);
             this.Controls.Add(this.SpaceToAccommodate);
             this.Controls.Add(this.BoxForElementsOfControl);
             this.Name = "MainForm";
@@ -228,6 +244,7 @@
         private System.Windows.Forms.GroupBox SecondContainerForElements;
         private System.Windows.Forms.Label SumChromosomeLabel;
         private System.Windows.Forms.TextBox SumChromosomeTextBox;
+        private System.Windows.Forms.Button BuildChartButton;
     }
 }
 

@@ -17,9 +17,6 @@ namespace GeneticAlgorithmCourseWork.Service
         private List<ResultModel> _result;
         private static ParallelOptions parOps = new ParallelOptions();
         
-
-
-
         public event EventHandler WrongParams;
         public delegate void SendPopulation (Chromosome chromosome);
         public event SendPopulation callback;
@@ -106,6 +103,7 @@ namespace GeneticAlgorithmCourseWork.Service
                          
                          _result.Add(resM);
                      }
+                    SingleSpaceParams.getInstance().GlobalResultContainerGetSet.Add(_result.ElementAt(0));
                 }
                 else
                 {
