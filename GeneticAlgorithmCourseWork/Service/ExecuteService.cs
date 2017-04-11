@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.Service
 {
-    class ExecuteService
+    public class ExecuteService
     {
         private List<int> _radiusContainer;
         private Population _populationContainer;

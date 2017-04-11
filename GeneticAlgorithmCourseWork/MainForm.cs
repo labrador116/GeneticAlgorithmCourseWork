@@ -24,7 +24,9 @@ namespace GeneticAlgorithmCourseWork
         Label LabelWithTip;
         Chromosome _chromosome;
         WaitingProcessForm _processForm;
-       
+        Button _setDevicesValues;
+
+
 
 
 
@@ -66,14 +68,16 @@ namespace GeneticAlgorithmCourseWork
                     BoxForElementsOfControl.Controls.Add(textbox);
                     _radiusTextBox.Add(textbox);
                 }
+                if (_setDevicesValues == null)
+                {
+                   _setDevicesValues = new Button();
+                }
+                _setDevicesValues.Text = Properties.Settings.Default.setDivicesText;
+                _setDevicesValues.AutoSize = true;
 
-                Button setDevicesValues = new Button();
-                setDevicesValues.Text = Properties.Settings.Default.setDivicesText;
-                setDevicesValues.AutoSize = true;
-
-                setDevicesValues.Location = new Point(Properties.Settings.Default.constX, 
+                _setDevicesValues.Location = new Point(Properties.Settings.Default.constX, 
                 Properties.Settings.Default.constY + (30 * (_radiusTextBox.Count+1)));
-
+                VariantsToEndAlgorithmListBox.Items.Clear();
                 VariantsToEndAlgorithmListBox.Items.Add("По кол-ву популяций");
                 VariantsToEndAlgorithmListBox.Items.Add("По критерию качества");
                 VariantsToEndAlgorithmListBox.Items.Add("Наилучшее решение");
@@ -84,8 +88,8 @@ namespace GeneticAlgorithmCourseWork
                 MutationTextBox.Visible = true;
                 FirstContainerForElements.Visible = true;
 
-                setDevicesValues.Click += new EventHandler(setDeviceButtonHandler);
-                BoxForElementsOfControl.Controls.Add(setDevicesValues);
+                _setDevicesValues.Click += new EventHandler(setDeviceButtonHandler);
+                BoxForElementsOfControl.Controls.Add(_setDevicesValues);
             }
         }
 
@@ -163,6 +167,7 @@ namespace GeneticAlgorithmCourseWork
 
         private void Service_callback(Chromosome chromosome)
         {
+            SpaceToAccommodate.Controls.Clear();
             _chromosome = chromosome;
             SpaceToAccommodate.Refresh();
             this.Visible = true;

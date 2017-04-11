@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.SpaceParam
 {
-    class SingleSpaceParams
+   public class SingleSpaceParams
     {
         private static SingleSpaceParams instance;
         private int _width;

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
 {
-    class GA
+   public class GA
     {
         /*Проверка всех окружностей на занимаемую плоскость*/
         public static bool CheckToArea(Chromosome chromosome)
@@ -288,7 +288,7 @@ namespace GeneticAlgorithmCourseWork.GeneticAlgorithm
         public static void Mutation(Chromosome chr)
         {
             var random = new Random();
-
+            
             if (random.NextDouble() < SingleSpaceParams.getInstance().PropabilityOfMutation)
             {
                 while (CheckIntersection(chr, 0) != false)
